@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="styles.css">
+        <title>Sistema de Cadastro de Estudantes</title>
+    </head>
+    <body>
+        <h1>Sistema de Cadastro de Estudantes</h1>
+        <div class="container">
+            <h2>Cadastrar Novo Aluno</h2>
+        <input type="text" id="student-name" placeholder="Nome do Aluno">
+        <button id="register-btn" type="button">Cadastrar Aluno</button>
+        <div id="register-message" class="popup">
+            <span class="close-btn">&times;</span>
+            <p></p>
+        </div>
+        </div>
+    
+    <div id="Container-Principal">
+        
+        <div class="container">
+            <h2>Acesso ao Local</h2>
+            <button id="access-btn" type="button">Verificar Acesso</button>
+            <div id="access-message" class="popup">
+                <span class="close-btn">&times;</span>
+                <p></p>
+            </div>
+        </div>
+        
+        <div class="container">
+        <h2>Lista de Alunos</h2>
+        <button id="list-btn" type="button">Listar Alunos</button>
+        <div id="user-list-message" class="popup">
+            <span class="close-btn">&times;</span>
+            <ul id="user-list"></ul>
+        </div>
+    </div>
+</div>
+    
+    <script src="./scripts.js"></script>
+</body>
+</html>
