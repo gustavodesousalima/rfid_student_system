@@ -11,7 +11,8 @@ CORS(app)
 
 students = {}
 rfid_data = None  # Variável global para armazenar o ID lido
-DATA_FILE = 'C:/Users/gusta/OneDrive/Desktop/bd-rfid/alunos.json'  # Nome do arquivo para persistência
+DATA_FILE = 'C:/Users/Aluno/Desktop/db-rfid/alunos.json'  # Nome do arquivo para persistência
+id_admin = "FD 33 11 03"  # Defina o ID do administrador aqui
 
 def load_students():
     global students
@@ -96,10 +97,36 @@ def access_student():
         if uid == rfid_data:
             print(f"Acesso liberado para '{name}' com ID {rfid_data}")
             rfid_data = None  # Limpa o ID após a verificação
-            return jsonify({"message": f"Acesso liberado para '{name}'"}), 200
+            return jsonify({"message": f"Acesso liberado para aluno(a): {name}"}), 200
 
     rfid_data = None  # Limpa o ID após a verificação falha
     return jsonify({"error": "Acesso negado"}), 403
+
+@app.route('/access-admin', methods=['POST'])
+def access_admin():
+    global rfid_data
+    print("Aguardando leitura do cartão para acesso administrativo...")
+
+    # Aguarda a leitura do cartão
+    timeout = 10  # Tempo de espera em segundos
+    start_time = time.time()
+
+    # Aguarda o cartão ser lido por 10 segundos
+    while rfid_data is None and (time.time() - start_time) < timeout:
+        time.sleep(1)  # Espera 1 segundo antes de verificar novamente
+
+    if rfid_data is None:
+        return jsonify({"error": "ID do cartão RFID não lido"}), 400
+
+    # Verifica se o UID lido corresponde ao ID do administrador
+    if rfid_data == id_admin:
+        print(f"Acesso administrativo liberado com ID {rfid_data}")
+        rfid_data = None  # Limpa o ID após a verificação
+        return jsonify({"message": "Acesso administrativo liberado"}), 200
+    else:
+        print(f"Acesso administrativo negado com ID {rfid_data}")
+        rfid_data = None  # Limpa o ID após a verificação
+        return jsonify({"error": "Acesso administrativo negado"}), 403
 
 @app.route('/list', methods=['GET'])
 def list_students():
